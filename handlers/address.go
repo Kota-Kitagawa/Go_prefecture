@@ -2,7 +2,7 @@ package handlers
 
 import (
 	"net/http"
-	"GO_prefecture/models"
+	"github.com/Kitagawa19/GO_prefecture/models"
 	"github.com/gin-gonic/gin"
 )
 

@@ -2,8 +2,8 @@ package main
 
 import (
     "log"
-    "GO_prefecture/database"
-    "GO_prefecture/handlers"
+    "github.com/Kitagawa19/GO_prefecture/database/db"
+    "github.com/Kitagawa19/GO_prefecture/handlers/address"
     "github.com/gin-gonic/gin"
 )
 func main() {
@@ -15,10 +15,10 @@ func main() {
     }
     defer db.Close()
 
-    if err := database.ImportCSV("database/Data/utf_ken_all.csv"); err != nil {
+    if err := database.ImportCSV("Data/utf_ken_all.csv"); err != nil {
         lo9g.Fatal("Failed to import CSV: %v",err)
     }
-    
+
     r.GET("/".handlers.IndexHandler)
     r.POST("/search",handlers.SearchHandler)
     r.RUN(":8080")
