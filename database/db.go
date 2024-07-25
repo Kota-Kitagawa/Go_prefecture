@@ -9,7 +9,7 @@ import (
 
 var DB *sql.DB
 
-func Init(filepath string) *sql.DB {
+func Init(filepath string) (*sql.DB, error) {
 	var err error
 	DB,err := sql.Open("sqlite3",filepath)
 	if err != nil {
@@ -21,7 +21,7 @@ func Init(filepath string) *sql.DB {
 
 	_ ,err = DB.Exec(`CREATE TABLE address(
 		id INTEGER PRIMARY KEY AUTOINCREMENT,
-		field1 TEXT,
+		field1 INTEGER,
 		field2 INTEGER,
 		field3 INTEGER,
 		field4 TEXT,
@@ -42,6 +42,7 @@ func Init(filepath string) *sql.DB {
 		}
 		return DB,nil
 }
+
 func ImportCSV(filepath string) error {
 	file,err := os.Open(filepath) //ファイルを開く
 	if err != nil {
@@ -49,8 +50,8 @@ func ImportCSV(filepath string) error {
 	}
 	defer file.Close()
 
-	render := csv.NewReader(file) //csvを読み込む
-	recoders,err := render.ReadAll() //全てのレコードを読み込む
+	reader := csv.NewReader(file) //csvを読み込む
+	recods,err := reader.ReadAll() //全てのレコードを読み込む
 	if err != nil {
 		return err
 	}
@@ -62,10 +63,11 @@ func ImportCSV(filepath string) error {
 		field1,field2,field3,field4,field5,field6,field7,field8,field9,field10,field11,field12,field13,field14,field15)
 		VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`)
 	if err != nil {
-	return err
+		return err
 	}
 	defer stmt.Close()
-	for _,record := range recodes {
+
+	for _,record := range recods {
 		_,err := stmt.Exec(record[0],record[1],record[2],record[3],record[4],record[5],record[6],record[7],record[8],record[9],record[10],record[11],record[12],record[13],record[14])
 		if err != nil {
 			tx.Rollback()
