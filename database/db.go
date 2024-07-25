@@ -1,4 +1,5 @@
 package database
+
 import (
 	"database/sql"
 	"encoding/csv"
@@ -6,7 +7,7 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
-var db *sql.DB
+var DB *sql.DB
 
 func Init(filepath string) *sql.DB {
 	var err error
@@ -14,11 +15,11 @@ func Init(filepath string) *sql.DB {
 	if err != nil {
 		return nil,err
 	}
-	if db == nil {
+	if DB == nil {
 		return nil,errors.New("DB is nil")
 	}
 
-	_ ,err = db.Exec("CREATE TABLE address(
+	_ ,err = DB.Exec(`CREATE TABLE address(
 		id INTEGER PRIMARY KEY AUTOINCREMENT,
 		field1 TEXT,
 		field2 INTEGER,
@@ -35,7 +36,7 @@ func Init(filepath string) *sql.DB {
 		field13 INTEGER,
 		field14 INTEGER,
 		field15 INTEGER
-		)")
+		)`)
 		if err != nil {
 			return nil,err
 		}
@@ -57,9 +58,9 @@ func ImportCSV(filepath string) error {
 	if err != nil {
 		return err
 	}
-	stmt,err : tx.Prepare("INSERT INTO address(
+	stmt,err : tx.Prepare(`INSERT INTO address(
 		field1,field2,field3,field4,field5,field6,field7,field8,field9,field10,field11,field12,field13,field14,field15)
-		VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)")
+		VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`)
 	if err != nil {
 	return err
 	}
