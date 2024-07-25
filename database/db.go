@@ -3,13 +3,14 @@ package database
 import (
 	"database/sql"
 	"encoding/csv"
+	"errors"
 	"os"
 	_ "github.com/mattn/go-sqlite3"
 )
 
 var DB *sql.DB
 
-func Init(filepath string) (*sql.DB, error) {
+func InitDB(filepath string) (*sql.DB, error) {
 	var err error
 	DB,err := sql.Open("sqlite3",filepath)
 	if err != nil {
