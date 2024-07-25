@@ -2,8 +2,8 @@ package main
 
 import (
     "log"
-    "github.com/Kitagawa19/GO_prefecture/database/db"
-    "github.com/Kitagawa19/GO_prefecture/handlers/address"
+    "Go_prefecture/database"
+    "Go_prefecture/handlers"
     "github.com/gin-gonic/gin"
 )
 func main() {

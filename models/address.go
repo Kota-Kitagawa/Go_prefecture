@@ -1,7 +1,7 @@
 package models
 import (
 	"database/sql"
-	"github.com/Kitagawa19/GO_prefecture/database/db"
+	"Go_prefecture/database"
 )
 
 func GetPosttalCode(prefecture,city,town,street string) (string,error) {
