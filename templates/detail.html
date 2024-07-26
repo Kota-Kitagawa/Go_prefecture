@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>住所から郵便番号を検索するウェブアプリ</title>
+</head>
+<body>
+    <h1>住所から郵便番号を検索</h1>
+    <form id="searchForm">
+        <input type="text" id="prefecture" name="prefecture" placeholder="都道府県" required>
+        <input type="text" id="city" name="city" placeholder="市区町村" required>
+        <input type="text" id="town" name="town" placeholder="町名" required>
+        <input type="text" id="street" name="street" placeholder="番地" required>
+        <button type="submit">検索</button>
+    </form>
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('searchForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+            fetch('/search', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    document.getElementById('result').innerText = '検索エラー: ' + data.error;
+                } else {
+                    document.getElementById('result').innerText = '郵便番号: ' + data.postal_code;
+                }
+            });
+        });
+    </script>
+</body>
+</html>

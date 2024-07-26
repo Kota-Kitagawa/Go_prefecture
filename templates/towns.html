@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>町名検索</title>
+</head>
+<body>
+    <h1>町名検索</h1>
+    <form action="/search" method="post">
+        <h2>町名を選択してください</h2>
+        {{range .towns}}
+        <input type="radio" name="town" value="{{.}}">{{.}}<br>
+        {{end}}
+        <input type="hidden" name="prefecture" value="{{.prefecture}}">
+        <input type="hidden" name="city" value="{{.city}}">
+        <h2>番地を入力してください</h2>
+        <input type="text" name="street" placeholder="番地"><br>
+        <button type="submit">送信</button>
+    </form>
+</body>
+</html>
