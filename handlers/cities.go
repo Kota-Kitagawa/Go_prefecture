@@ -1,17 +1,23 @@
 package handlers
 
 import (
+	"log"
 	"net/http"
-	"Go_prefecture/database"
 	"github.com/gin-gonic/gin"
+	"github.com/your_project_name/database"
 )
 
-func CitiesHandler(c *gin.Context) {
-	prefecture := c.PostForm("prefecture")
+func CityHandler(c *gin.Context) {
+	prefecture := c.Query("prefecture")
+	if prefecture == "" {
+		c.String(http.StatusBadRequest, "Prefecture not specified")
+		return
+	}
 
-	rows, err := database.DB.Query("SELECT DISTINCT city FROM addresses WHERE prefecture = ?", prefecture)
+	rows, err := database.DB.Query("SELECT DISTINCT field8 FROM addresses WHERE field7 = ?", prefecture)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		log.Printf("Failed to fetch cities: %v", err)
+		c.String(http.StatusInternalServerError, "Failed to fetch cities")
 		return
 	}
 	defer rows.Close()
@@ -19,12 +25,12 @@ func CitiesHandler(c *gin.Context) {
 	var cities []string
 	for rows.Next() {
 		var city string
-		if err := rows.Scan(&city); err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-			return
-		}
+		rows.Scan(&city)
 		cities = append(cities, city)
 	}
 
-	c.HTML(http.StatusOK, "cities.html", gin.H{"prefecture": prefecture, "cities": cities})
+	c.HTML(http.StatusOK, "cities.html", gin.H{
+		"Prefecture": prefecture,
+		"Cities":     cities,
+	})
 }

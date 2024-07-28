@@ -1,43 +1,32 @@
 package handlers
 
 import (
+	"log"
 	"net/http"
-	"Go_prefecture/database"
-	"Go_prefecture/models"
 	"github.com/gin-gonic/gin"
+	"github.com/your_project_name/database"
 )
 
-func IndexHandler(c *gin.Context) {
-	rows, err := database.DB.Query("SELECT DISTINCT prefecture FROM addresses")
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+func AddressHandler(c *gin.Context) {
+	postalCode := c.Query("postalCode")
+	if postalCode == "" {
+		c.String(http.StatusBadRequest, "Postal code not specified")
 		return
 	}
-	defer rows.Close()
 
-	var prefectures []string
-	for rows.Next() {
-		var prefecture string
-		if err := rows.Scan(&prefecture); err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-			return
-		}
-		prefectures = append(prefectures, prefecture)
+	var address struct {
+		Prefecture string
+		City       string
+		Address    string
 	}
 
-	c.HTML(http.StatusOK, "index.html", gin.H{"prefectures": prefectures})
-}
-
-func SearchHandler(c *gin.Context) {
-	prefecture := c.PostForm("prefecture")
-	city := c.PostForm("city")
-	town := c.PostForm("town")
-	street := c.PostForm("street")
-
-	postalCode, err := models.GetPostalCode(prefecture, city, town, street)
+	err := database.DB.QueryRow("SELECT field7, field8, field9 FROM addresses WHERE field3 = ?", postalCode).Scan(
+		&address.Prefecture, &address.City, &address.Address)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		log.Printf("Failed to fetch address: %v", err)
+		c.String(http.StatusInternalServerError, "Failed to fetch address")
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"postal_code": postalCode})
+
+	c.HTML(http.StatusOK, "address.html", address)
 }
