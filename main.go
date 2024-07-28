@@ -19,9 +19,9 @@ func main() {
         log.Fatal("Failed to import CSV: %v",err)
     }
 
-    router.GET("/", handlers.IndexHandler)
-	router.POST("/cities", handlers.CitiesHandler)
-	router.POST("/towns", handlers.TownsHandler)
-	router.POST("/search", handlers.SearchHandler)
+    router.GET("/", handlers.HomeHandler)
+	router.GET("/prefectures", handlers.PrefectureHandler)
+	router.GET("/cities", handlers.CityHandler)
+	router.GET("/address", handlers.AddressHandler)
     router.Run(":8080")
 }

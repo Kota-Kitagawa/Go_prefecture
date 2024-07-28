@@ -1,16 +1,27 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>住所検索</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card Example</title>
+    <style>
+        .card {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .card:hover {
+            background-color: #f0f0f0;
+        }
+    </style>
 </head>
 <body>
-    <h1>住所検索</h1>
-    <form action="/cities" method="post">
-        <h2>都道府県を選択してください</h2>
-        {{range .prefectures}}
-        <input type="radio" name="prefecture" value="{{.}}">{{.}}<br>
-        {{end}}
-        <button type="submit">送信</button>
-    </form>
+    <div class="card" onclick="location.href='/detail'">
+        <h2>Card Title</h2>
+        <p>This is a description of the card. Click to see more details.</p>
+    </div>
 </body>
 </html>

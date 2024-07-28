@@ -42,47 +42,6 @@ func InitDB(filepath string) (*sql.DB, error) {
 	if err != nil && err.Error() != "table addresses already exists" {
 		return nil, err
 	}
-	_,err = DB.Exec(`CREATE TABLE normalized_utf_ken_all
- 		AS
-		SELECT field1, field2, field3, field4, field5, field6, field7, field8,
-    		CASE
-        	WHEN field9 = '以下に掲載がない場合' THEN '未掲載'
-        	ELSE field9
-    		END AS Normalizedfield9,
-    		CASE
-        	WHEN field9 LIKE '%（%' THEN substr(field9, 1, instr(field9, '（') - 1)
-        	ELSE field9
-    		END AS OutsideParentheses,
-    		CASE
-        	WHEN field9 LIKE '%（%' THEN substr(field9, instr(field9, '（') + 1, instr(field9, '）') - instr(field9, '（') - 1)
-        	ELSE NULL
-    		END AS InsideParentheses,
-    		CASE
-        	WHEN field9 LIKE '%（%' AND field9 LIKE '%〜%' THEN
-            	CASE
-                WHEN instr(substr(field9, instr(field9, '（') + 1, instr(field9, '）') - instr(field9, '（') - 1), '〜') > 0 THEN
-                substr(substr(field9, instr(field9, '（') + 1, instr(field9, '）') - instr(field9, '（') - 1),
-                	1,
-                        instr(substr(field9, instr(field9, '（') + 1, instr(field9, '）') - instr(field9, '（') - 1), '〜') - 1)
-                ELSE NULL
-            	END
-        	ELSE NULL
-    		END AS StartNumber,
-    		CASE
-        	WHEN field9 LIKE '%（%' AND field9 LIKE '%〜%' THEN
-            	CASE
-                WHEN instr(substr(field9, instr(field9, '（') + 1, instr(field9, '）') - instr(field9, '（') - 1), '〜') > 0 THEN
-                substr( substr(field9, instr(field9, '（') + 1, instr(field9, '丁目') - instr(field9, '（') - 1),
-                	instr(substr(field9, instr(field9, '（') + 1, instr(field9, '丁目') - instr(field9, '（') - 1), '〜') + 1)
-                ELSE NULL
-            	END
-        	ELSE NULL
-    		END AS EndNumber
-		FROM utf_ken_all;
-		`)
-	if err != nil && err.Error() != "table addresses already exists" {
-		return nil, err
-	}
 
 	return DB, nil
 }
@@ -122,6 +81,5 @@ func ImportCSV(filepath string) error {
 			return err
 		}
 	}
-
 	return tx.Commit()
 }
