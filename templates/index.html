@@ -4,24 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Card Example</title>
-    <style>
-        .card {
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            padding: 16px;
-            margin: 16px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        .card:hover {
-            background-color: #f0f0f0;
-        }
-    </style>
 </head>
 <body>
     <div class="card" onclick="location.href='/detail'">
         <h2>Card Title</h2>
         <p>This is a description of the card. Click to see more details.</p>
+        <a href="/prefectures">都道府県一覧</a>
+    </div>
+    <div class="card" onclick="location.href='/detail'">
+        <h2>Card Title</h2>
+        <p>This is a description of the card. Click to see more details.</p>
+        <a href="/postcode">郵便番号から住所検索</a>
+    </div>
+    <div class="card" onclick="location.href='/detail'">
+        <h2>Card Title</h2>
+        <p>This is a description of the card. Click to see more details.</p>
+        <a href="/cities">都道府県別市区町村一覧</a>
     </div>
 </body>
 </html>
+<style>
+    .card {
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        padding: 16px;
+        margin: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    .card:hover {
+        background-color: #f0f0f0;
+    }
+</style>
