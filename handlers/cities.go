@@ -29,7 +29,7 @@ func CityHandler(c *gin.Context) {
 		cities = append(cities, city)
 	}
 
-	c.HTML(http.StatusOK, "cities.html", gin.H{
+	c.HTML(http.StatusOK, "citiesresult.html", gin.H{
 		"Prefecture": prefecture,
 		"Cities":     cities,
 	})
