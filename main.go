@@ -6,6 +6,7 @@ import (
     "Go_prefecture/handlers"
     "github.com/gin-gonic/gin"
 )
+
 func main() {
     router :=gin.Default()
     router.LoadHTMLGlob("templates/*")
