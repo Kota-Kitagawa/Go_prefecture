@@ -4,7 +4,7 @@ import (
 	"log"
 	"net/http"
 	"github.com/gin-gonic/gin"
-	"github.com/your_project_name/database"
+	"Go_prefecture/database"
 )
 
 func CityHandler(c *gin.Context) {
