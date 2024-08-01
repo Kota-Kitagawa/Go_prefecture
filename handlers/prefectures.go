@@ -1,7 +1,9 @@
 package handlers
+
 import (
 	"log"
 	"net/http"
+	"regexp"
 	"github.com/gin-gonic/gin"
 	"Go_prefecture/database"
 )
@@ -15,12 +17,15 @@ func PrefectureHandler(c *gin.Context) {
 	defer rows.Close()
 
 	var prefectures []string
+	reader:=regexp.MustCompile(`^[\p{Han}]{2,3}(?:都|道|府|県)$`)
+
 	for rows.Next() {
 		var prefecture string
 		rows.Scan(&prefecture)
-		prefectures = append(prefectures, prefecture)
+		if(reader.MatchString(prefecture)){
+			prefectures = append(prefectures, prefecture)
+		}
 	}
-
 	c.HTML(http.StatusOK, "prefectures.html", gin.H{
 		"Prefectures": prefectures,
 	})
