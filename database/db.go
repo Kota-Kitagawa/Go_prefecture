@@ -5,6 +5,8 @@ import (
 	"encoding/csv"
 	"errors"
 	"os"
+	"golang.org/x/text/encoding/japanese"
+	"golang.org/x/text/transform"
 	_ "github.com/mattn/go-sqlite3"
 )
 
@@ -63,8 +65,8 @@ func NormalizeTable() error {
 				WHEN field9 LIKE '%（%' THEN substr(field9, instr(field9, '（') + 1, instr(field9, '）') - instr(field9, '（') - 1)
 				ELSE NULL
 			END AS InsideParentheses
-		FROM utf_ken_all;
-	`)
+		FROM utf_ken_all;`
+	)
 	if err != nil {
 		return err
 		}
@@ -82,7 +84,7 @@ func ImportCSV(filepath string) error {
 	}
 	defer file.Close()
 
-	reader := csv.NewReader(file)
+	reader := csv.NewReader(transform.NewReader(file, japanese.ShiftJIS.NewDecoder()))
 	records, err := reader.ReadAll()
 	if err != nil {
 		return err
