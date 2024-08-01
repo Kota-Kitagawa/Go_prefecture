@@ -4,8 +4,8 @@ import (
 	"database/sql"
 	"encoding/csv"
 	"errors"
+	"fmt"
 	"os"
-
 	"golang.org/x/text/encoding/japanese"
 	"golang.org/x/text/transform"
 	_ "github.com/mattn/go-sqlite3"
@@ -21,6 +21,12 @@ func InitDB(filepath string) (*sql.DB, error) {
 	}
 	if DB == nil {
 		return nil, errors.New("db is nil")
+	}
+
+	// Set PRAGMA encoding to UTF-8
+	_, err = DB.Exec(`PRAGMA encoding = "UTF-8";`)
+	if err != nil {
+		return nil, err
 	}
 
 	// Create table if not exists
@@ -85,6 +91,7 @@ func ImportCSV(filepath string) error {
 	}
 	defer file.Close()
 
+	// Shift_JISエンコーディングのCSVファイルをUTF-8として読み込む
 	reader := csv.NewReader(transform.NewReader(file, japanese.ShiftJIS.NewDecoder()))
 	records, err := reader.ReadAll()
 	if err != nil {
@@ -102,7 +109,11 @@ func ImportCSV(filepath string) error {
 	}
 	defer stmt.Close()
 
-	for _, record := range records {
+	// 最初の10行だけログ出力して確認
+	for i, record := range records {
+		if i < 5 {
+			fmt.Printf("Record %d: %v\n", i, record)
+		}
 		_, err = stmt.Exec(record[0], record[1], record[2], record[3], record[4], record[5], record[6], record[7], record[8], record[9], record[10], record[11], record[12], record[13], record[14])
 		if err != nil {
 			tx.Rollback()

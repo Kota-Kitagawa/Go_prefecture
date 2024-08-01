@@ -22,6 +22,7 @@ func main() {
     router.GET("/", handlers.HomeHandler)
 	router.GET("/prefectures", handlers.PrefectureHandler)
 	router.GET("/cities", handlers.CityHandler)
-	router.GET("/postcode", handlers.AddressHandler)
+	router.GET("/postcode", handlers.PostalHandler)
+    router.POST("/addressresult", handlers.AddressHandler)
     router.Run(":8080")
 }
