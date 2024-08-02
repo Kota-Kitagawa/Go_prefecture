@@ -8,13 +8,19 @@ import (
 )
 
 func CityHandler(c *gin.Context) {
-	prefecture := c.Query("prefecture")
-	if prefecture == "" {
-		c.String(http.StatusBadRequest, "Prefecture not specified")
-		return
-	}
+	prefecture := c.PostForm("prefecture")
+	log.Printf("Received prefecture: %s", prefecture)
 
-	rows, err := database.DB.Query("SELECT DISTINCT field8 FROM addresses WHERE field7 = ?", prefecture)
+	query := `
+		SELECT CASE
+			WHEN field9 = '以下に掲載がない場合' THEN field8
+			ELSE field8 || field9
+			END AS city
+		FROM addresses
+		WHERE field7 = ?
+		`
+	
+	rows, err := database.DB.Query(query, prefecture)
 	if err != nil {
 		log.Printf("Failed to fetch cities: %v", err)
 		c.String(http.StatusInternalServerError, "Failed to fetch cities")
@@ -30,7 +36,6 @@ func CityHandler(c *gin.Context) {
 	}
 
 	c.HTML(http.StatusOK, "citiesresult.html", gin.H{
-		"Prefecture": prefecture,
-		"Cities":     cities,
+		"Cities":  cities,
 	})
 }

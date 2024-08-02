@@ -10,7 +10,7 @@
     <form action="/citiesresult" method="POST">
         <select name="prefecture" id="prefecture-select">
             {{ range .Prefectures }}
-            <option value="{{.}}" id="prefectures">{{.}}</option>
+            <option value="{{.}}">{{.}}</option>
             {{ end }}
         </select>
         <button type="submit">検索</button>
