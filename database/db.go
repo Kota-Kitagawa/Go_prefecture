@@ -124,3 +124,18 @@ func ImportCSV(filepath string) error {
 	}
 	return tx.Commit()
 }
+func main() {
+    // Initialize the database with new.db
+    db, err := InitDB("new.db")
+    if err != nil {
+        panic(err)
+    }
+    defer db.Close()
+
+    // Normalize the table
+    if err := NormalizeTable(); err != nil {
+        panic(err)
+    }
+
+    fmt.Println("Table created and normalized successfully")
+}
