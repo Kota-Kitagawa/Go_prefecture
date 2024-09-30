@@ -73,6 +73,8 @@ func NormalizeTable() error {
 				ELSE NULL
 			END AS InsideParentheses
 		FROM utf_ken_all;
+		ALTER TABLE normalized_utf_ken_all
+		ADD PRIMARY KEY(Normalizedfield9,field7,field8);
 	`)
 	if err != nil {
 		return err
