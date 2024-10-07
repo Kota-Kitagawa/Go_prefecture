@@ -55,7 +55,14 @@ func InitDB(filepath string) (*sql.DB, error) {
 }
 
 func NormalizeTable() error {
-	_, err := DB.Exec(`
+	// トランザクションの開始
+	tx, err := DB.Begin()
+	if err != nil {
+		return err
+	}
+
+	// テーブルの削除および作成
+	_, err = tx.Exec(`
 		DROP TABLE IF EXISTS normalized_utf_ken_all;
 
 		CREATE TABLE normalized_utf_ken_all AS
@@ -73,13 +80,19 @@ func NormalizeTable() error {
 				ELSE NULL
 			END AS InsideParentheses
 		FROM utf_ken_all;
+		
+		-- プライマリキーの追加
 		ALTER TABLE normalized_utf_ken_all
 		ADD PRIMARY KEY(Normalizedfield9,field7,field8);
 	`)
 	if err != nil {
+		// エラーが発生した場合はロールバック
+		tx.Rollback()
 		return err
 	}
-	return nil
+
+	// トランザクションをコミット
+	return tx.Commit()
 }
 
 func ImportCSV(filepath string) error {
