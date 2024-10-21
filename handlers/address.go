@@ -39,9 +39,8 @@ func AddressHandler(c *gin.Context) {
     }
 
     log.Printf("Fetched fields: field7: %s, field8: %s, field9: %s, fullAddress: %s", field7, field8, field9, fullAddress)
-
     log.Printf("Constructed full address: %s", fullAddress)
-
+    
     c.HTML(http.StatusOK, "addressresult.html", gin.H{
         "Field7": field7,
         "Field8": field8,
