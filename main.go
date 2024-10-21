@@ -72,6 +72,7 @@ func main() {
 	router.POST("/citiesresult", handlers.CityHandler)      //市区町村検索結果のページ
 	router.GET("/postcode", handlers.PostalHandler)         //郵便番号の検索ページ
 	router.POST("/addressresult", handlers.AddressHandler)  //郵便番号から住所の結果を表示するページ
+	router.POST("/postsearch", handlers.PostSearchHandler)  //郵便番号から住所の結果を表示するページ
 
 	router.Run(":8080")
 }
