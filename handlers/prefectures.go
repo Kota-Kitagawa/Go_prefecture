@@ -15,6 +15,7 @@ func PrefectureHandler(c *gin.Context) {
 		return
 	}
 	defer rows.Close()
+	// 正規表現のコードを二回使っている上のSELEｃT分と下のMuxtCompileの文
 
 	var prefectures []string
 	reader:=regexp.MustCompile(`^[\p{Han}]{2,3}(?:都|道|府|県)$`)

@@ -55,29 +55,54 @@ func InitDB(filepath string) (*sql.DB, error) {
 }
 
 func NormalizeTable() error {
-	_, err := DB.Exec(`
-		DROP TABLE IF EXISTS normalized_utf_ken_all;
-
-		CREATE TABLE normalized_utf_ken_all AS
-		SELECT field1, field2, field3, field4, field5, field6, field7, field8,
-			CASE 
-				WHEN field9 = '以下に掲載がない場合' THEN '未掲載'
-				ELSE field9
-			END AS Normalizedfield9,
-			CASE 
-				WHEN field9 LIKE '%（%' THEN substr(field9, 1, instr(field9, '（') - 1)
-				ELSE field9
-			END AS OutsideParentheses,
-			CASE 
-				WHEN field9 LIKE '%（%' THEN substr(field9, instr(field9, '（') + 1, instr(field9, '）') - instr(field9, '（') - 1)
-				ELSE NULL
-			END AS InsideParentheses
-		FROM utf_ken_all;
-	`)
+	// トランザクションの開始
+	tx, err := DB.Begin()
 	if err != nil {
 		return err
 	}
-	return nil
+
+	// テーブルの削除および作成
+	_, err = tx.Exec(`
+    DROP TABLE IF EXISTS normalized_utf_ken_all;
+
+    -- テーブルを作成
+    CREATE TABLE IF NOT EXISTS normalized_utf_ken_all (
+        field1 INTEGER,
+        field2 INTEGER,
+        field3 INTEGER,
+        field4 TEXT,
+        field5 TEXT,
+        field6 TEXT,
+        field7 TEXT,
+        field8 TEXT,
+        Normalizedfield9 TEXT,
+        OutsideParentheses TEXT,
+        InsideParentheses TEXT,
+        PRIMARY KEY (Normalizedfield9, field7, field8)
+    );
+
+    -- 重複を無視してデータを挿入
+    INSERT OR IGNORE INTO normalized_utf_ken_all (field1, field2, field3, field4, field5, field6, field7, field8, Normalizedfield9, OutsideParentheses, InsideParentheses)
+    SELECT field1, field2, field3, field4, field5, field6, field7, field8,
+        CASE 
+            WHEN field9 = '以下に掲載がない場合' THEN '未掲載'
+            ELSE field9
+        END AS Normalizedfield9,
+        CASE 
+            WHEN field9 LIKE '%（%' THEN substr(field9, 1, instr(field9, '（') - 1)
+            ELSE field9
+        END AS OutsideParentheses,
+        CASE 
+            WHEN field9 LIKE '%（%' THEN substr(field9, instr(field9, '（') + 1, instr(field9, '）') - instr(field9, '（') - 1)
+            ELSE NULL
+        END AS InsideParentheses
+    FROM addresses;
+`)
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
+	return tx.Commit()
 }
 
 func ImportCSV(filepath string) error {
@@ -121,4 +146,17 @@ func ImportCSV(filepath string) error {
 		}
 	}
 	return tx.Commit()
+}
+func main() {
+    // Initialize the database with new.db
+    db, err := InitDB("new.db")
+    if err != nil {
+        panic(err)
+    }
+    defer db.Close()
+    // Normalize the table
+    if err := NormalizeTable(); err != nil {
+        panic(err)
+    }
+    fmt.Println("Table created and normalized successfully")
 }
