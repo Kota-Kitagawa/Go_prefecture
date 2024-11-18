@@ -16,11 +16,10 @@ func main() {
 	}
 	defer db.Close()
 
-	// 最初のテーブルを作成
 	fmt.Println("First table created successfully")
 
 	// CSVデータをaddressesテーブルにインポート
-	err = database.ImportCSV("Data/utf_ken_all.csv") // CSVファイルのパスを指定
+	err = database.ImportCSV("Data/utf_ken_all.csv") 
 	if err != nil {
 		fmt.Printf("Error importing CSV: %v\n", err)
 		return
@@ -45,7 +44,6 @@ func main() {
 		return
 	}
 
-	// NormalizeTableを呼び出して、2つ目のテーブルを作成
 	err = database.NormalizeTable()
 	if err != nil {
 		fmt.Printf("Error occurred during normalization: %v\n", err)
