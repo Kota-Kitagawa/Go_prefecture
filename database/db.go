@@ -59,7 +59,6 @@ func NormalizeTable() error {
 		return err
 	}
 
-	// テーブルの削除および作成
 	_, err = tx.Exec(`
     DROP TABLE IF EXISTS normalized_utf_ken_all;
 
@@ -146,13 +145,12 @@ func ImportCSV(filepath string) error {
 	return tx.Commit()
 }
 func main() {
-    // Initialize the database with new.db
     db, err := InitDB("new.db")
     if err != nil {
         panic(err)
     }
     defer db.Close()
-    // Normalize the table
+	
     if err := NormalizeTable(); err != nil {
         panic(err)
     }
