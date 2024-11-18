@@ -29,7 +29,6 @@ func InitDB(filepath string) (*sql.DB, error) {
 		return nil, err
 	}
 
-	// Create table if not exists
 	_, err = DB.Exec(`CREATE TABLE IF NOT EXISTS addresses (
 		id INTEGER PRIMARY KEY AUTOINCREMENT,
 		field1 INTEGER,
@@ -55,7 +54,6 @@ func InitDB(filepath string) (*sql.DB, error) {
 }
 
 func NormalizeTable() error {
-	// トランザクションの開始
 	tx, err := DB.Begin()
 	if err != nil {
 		return err
@@ -65,7 +63,6 @@ func NormalizeTable() error {
 	_, err = tx.Exec(`
     DROP TABLE IF EXISTS normalized_utf_ken_all;
 
-    -- テーブルを作成
     CREATE TABLE IF NOT EXISTS normalized_utf_ken_all (
         field1 INTEGER,
         field2 INTEGER,
@@ -81,7 +78,6 @@ func NormalizeTable() error {
         PRIMARY KEY (Normalizedfield9, field7, field8)
     );
 
-    -- 重複を無視してデータを挿入
     INSERT OR IGNORE INTO normalized_utf_ken_all (field1, field2, field3, field4, field5, field6, field7, field8, Normalizedfield9, OutsideParentheses, InsideParentheses)
     SELECT field1, field2, field3, field4, field5, field6, field7, field8,
         CASE 
@@ -134,8 +130,10 @@ func ImportCSV(filepath string) error {
 	}
 	defer stmt.Close()
 
-	// 最初の10行だけログ出力して確認
 	for i, record := range records {
+		if i ==0 {
+			continue
+		}
 		if i < 5 {
 			fmt.Printf("Record %d: %v\n", i, record)
 		}
