@@ -5,27 +5,9 @@ import (
     "Go_prefecture/handlers"
     "github.com/gin-gonic/gin"
     "fmt"
-    "io/ioutil"
-    "log"
-    "os"
 )
 
 func main() {
-    // カレントディレクトリの確認
-    wd, err := os.Getwd()
-    if err != nil {
-        log.Fatalf("Failed to get current directory: %v", err)
-    }
-    fmt.Printf("Current working directory: %s\n", wd)
-
-    // テンプレートディレクトリの内容を出力
-    files, err := ioutil.ReadDir("../templates")
-    if err != nil {
-        log.Fatalf("Failed to read templates directory: %v", err)
-    }
-    for _, file := range files {
-        fmt.Println(file.Name())
-    }
 
     router := gin.Default()
     router.LoadHTMLGlob("../templates/*")
