@@ -52,3 +52,11 @@ func PostSearchHandler(c *gin.Context){
         c.String(http.StatusNotFound, "No postal code found for the given address")
     }
 }
+
+func PostalHandler(c *gin.Context) {
+	c.HTML(200, "postcode.html", nil)
+}
+
+func AddressSearchHandler(c *gin.Context){
+	c.HTML(200,"postsearch.html",nil)
+}
