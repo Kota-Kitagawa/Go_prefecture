@@ -27,6 +27,7 @@ func fetchAddress(postalCode string) (string, string, string, string, error) {
     return field7, field8, field9, fullAddress, nil
 }
 
+// HTML形式
 func AddressHTMLHandler(c *gin.Context) {
     postalCode1 := c.PostForm("postalcode1")
     postalCode2 := c.PostForm("postalcode2")
@@ -55,6 +56,7 @@ func AddressHTMLHandler(c *gin.Context) {
     })
 }
 
+// JSON形式
 func AddressJSONHandler(c *gin.Context) {
     postalCode1 := c.PostForm("postalcode1")
     postalCode2 := c.PostForm("postalcode2")
