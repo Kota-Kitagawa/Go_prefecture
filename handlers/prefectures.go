@@ -4,7 +4,7 @@ import (
 	"log"
 	"net/http"
 	"github.com/gin-gonic/gin"
-	"Go_prefecture/database"
+	"Go_prefecture/pkg/database"
 )
 func PrefectureHandler(c *gin.Context) {
 	rows, err := database.DB.Query("SELECT DISTINCT field7 FROM addresses")

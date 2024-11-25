@@ -4,7 +4,7 @@ import (
     "log"
     "net/http"
     "regexp"
-    "Go_prefecture/database"
+    "Go_prefecture/pkg/database"
     "github.com/gin-gonic/gin"
 )
 

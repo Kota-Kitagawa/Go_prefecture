@@ -3,7 +3,7 @@ package handlers
 import (
 	"log"
 	"net/http"
-	"Go_prefecture/database"
+	"Go_prefecture/pkg/database"
 	"github.com/gin-gonic/gin"
 )
 
