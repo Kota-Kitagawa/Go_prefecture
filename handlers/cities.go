@@ -16,12 +16,20 @@ func fetchCities(prefecture string)([]string,error){
 		FROM addresses
 		WHERE field7 = ?
 		`
-	
 	rows, err := database.DB.Query(query, prefecture)
 	if err != nil{
 		return nil, err
 	}
 	defer rows.Close()
+	var cities[]string
+	for rows.Next(){
+		var city string
+		if err:=rows.Scan(&city);err!=nil{
+			return nil,err
+		}
+		cities=append(cities,city)
+	}
+	return cities,err
 }
 func CitiesHTMLHandler(c *gin.Context){
 	prefecture := c.PostForm("prefecture")
