@@ -67,7 +67,7 @@ func main() {
 
     router.GET("/", handlers.HomeHandler)
     router.GET("/prefectures", handlers.PrefectureHTMLHandler)    //都道府県リスト
-    router.GET("/cities", handlers.PrefecturetocityHandler)   //市区町村検索ページ
+    router.GET("/cities", handlers.PretoCityHTMLHandler)   //市区町村検索ページ
     router.POST("/citiesresult", handlers.CitiesHTMLHandler)        //市区町村検索結果のページ
     router.GET("/postcode", handlers.PostalHandler)           //郵便番号の検索ページ
     router.POST("/addressresult", handlers.AddressHTMLHandler)    //郵便番号から住所の結果を表示するページ
