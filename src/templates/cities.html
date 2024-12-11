@@ -6,15 +6,120 @@
     <title>都道府県別の市区町村リスト</title>
 </head>
 <body>
-    <div>都道府県別の市区町村リスト</div>
-    <form action="/citiesresult" method="POST">
-        <select name="prefecture" id="prefecture-select">
-            {{ range .Prefectures }}
-            <option value="{{.}}">{{.}}</option>
-            {{ end }}
-        </select>
-        <button type="submit">検索</button>
-    </form>
-    <a href="/">ホームに戻る</a>
+    <div class="container">
+        <div class="card">
+            <div class="card-header">都道府県別の市区町村リスト</div>
+            <div class="card-content">
+                <form action="/citiesresult" method="POST">
+                    <select name="prefecture" id="prefecture-select">
+                        {{ range .Prefectures }}
+                        <option value="{{.}}">{{.}}</option>
+                        {{ end }}
+                    </select>
+                    <button type="submit">検索</button>
+                </form>
+            </div>
+            <div class="card-footer">
+                <a href="/">ホームに戻る</a>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
+<style>
+    :root {
+    --primary-color: #283593; 
+    --secondary-color: #4CAF50; 
+    --background-gradient: linear-gradient(to right, #e3f2fd, #bbdefb);
+    --card-bg-color: white;
+    --card-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+}
+
+body {
+    font-family: 'Noto Sans JP', sans-serif;
+    background: var(--background-gradient);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 600px;
+    width: 100%;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+}
+
+.card {
+    background: var(--card-bg-color);
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: var(--card-shadow);
+    transition: transform 0.3s, box-shadow 0.3s;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: left;
+    width: 100%;
+}
+
+
+.card-header {
+    font-size: 1.6rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-bottom: 12px;
+}
+
+.card-content {
+    color: #666;
+    font-size: 1rem;
+    margin-bottom: 16px;
+    line-height: 1.6;
+}
+
+.card-footer {
+    text-align: right;
+    color: var(--secondary-color);
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+}
+
+select, button {
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+}
+
+button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: bold;
+    margin-top: 16px;
+}
+</style>
