@@ -27,13 +27,13 @@ func fetchAddress(postalCode string) (string, string, string, string, error) {
 }
 
 func AddressHandler(c *gin.Context) {
-    postalCode := c.PostForm("postalcode1") + c.PostForm("postalcode2")
+    postalCode := c.Query("postalcode1") + c.Query("postalcode2")
     field7, field8, field9, fullAddress, err := fetchAddress(postalCode)
     if err != nil {
         c.String(http.StatusInternalServerError, "Error fetching address")
         return
     }
-    responseFormat := c.PostForm("format")
+    responseFormat := c.Query("format")
     if responseFormat == "json" {
         c.JSON(http.StatusOK, gin.H{
             "Field7":      field7,

@@ -70,7 +70,7 @@ func main() {
     router.GET("/cities", handlers.PretoCityHTMLHandler)   //市区町村検索ページ
     router.POST("/citiesresult", handlers.CitiesHTMLHandler)        //市区町村検索結果のページ
     router.GET("/postcode", handlers.PostalHandler)           //郵便番号の検索ページ
-    router.POST("/addressresult", handlers.AddressHandler)    //郵便番号から住所の結果を表示するページ
+    router.GET("/addressresult", handlers.AddressHandler)    //郵便番号から住所の結果を表示するページ
     router.GET("/postsearch", handlers.AddressSearchHandler)  //住所から郵便番号を検索するページ
     router.POST("/postresult",handlers.PostSearchHTMLHandler)     //郵便番号結果を表示するページ
     router.Run(":8080")
