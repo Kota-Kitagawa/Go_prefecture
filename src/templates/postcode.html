@@ -4,14 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>郵便番号から住所検索</title>
-    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
         <div class="card">
             <div class="card-header">郵便番号から住所検索</div>
             <div class="card-content">
-                <form action="/addressresult" method="POST">
+                <form action="/addressresult" method="GET">
                     <div class="postalcode-inputs">
                         <input type="text" id="postalcode1" name="postalcode1" placeholder="123">
                         ー
@@ -33,8 +32,8 @@
 </html>
 <style>
     :root {
-    --primary-color: #283593; /* モダンな濃い青色 */
-    --secondary-color: #4CAF50; /* アクセントの緑 */
+    --primary-color: #283593; 
+    --secondary-color: #4CAF50; 
     --background-gradient: linear-gradient(to right, #e3f2fd, #bbdefb);
     --card-bg-color: white;
     --card-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);

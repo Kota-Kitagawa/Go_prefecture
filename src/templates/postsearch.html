@@ -1,19 +1,127 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>住所から郵便番号の検索</title>
-    </head>
-    <body>
-        <div>住所から郵便番号検索</div>
-            <form action="/postresult" method="POST">
-                <input type="text" id="prefecture" name="prefecture" placeholder="〇〇県" >
-                <input type="text" id="city" name="city" placeholder="〇〇市" >
-                <input type="text" id="detail" name="detail" placeholder="〇〇町〇〇ビル" >
-                <button type="submit">検索</button>
-            </form>
-            <a href="/">ホームに戻る</a>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>住所から郵便番号検索</title>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="card-header">住所から郵便番号検索</div>
+            <div class="card-content">
+                <form action="/postresult" method="POST">
+                    <label for="prefecture">都道府県</label>
+                    <input type="text" id="prefecture" name="prefecture" placeholder="例: 〇〇県">
+                    <label for="city">市区町村</label>
+                    <input type="text" id="city" name="city" placeholder="例: 〇〇市">
+                    <label for="address">詳細住所</label>
+                    <input type="text" id="address" name="address" placeholder="例: 〇〇町〇〇ビル">
+                    <button type="submit">検索</button>
+                </form>
+            </div>
+            <div class="card-footer">
+                <a href="/">ホームに戻る</a>
+            </div>
         </div>
-    </body>
+    </div>
+</body>
 </html>
+<style>
+    :root {
+    --primary-color: #283593; 
+    --secondary-color: #4CAF50; 
+    --background-gradient: linear-gradient(to right, #e3f2fd, #bbdefb);
+    --card-bg-color: white;
+    --card-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+}
+
+body {
+    font-family: 'Noto Sans JP', sans-serif;
+    background: var(--background-gradient);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 600px;
+    width: 100%;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+}
+
+.card {
+    background: var(--card-bg-color);
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: var(--card-shadow);
+    transition: transform 0.3s, box-shadow 0.3s;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: left;
+    width: 100%;
+}
+
+.card-header {
+    font-size: 1.6rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-bottom: 12px;
+}
+
+.card-content {
+    color: #666;
+    font-size: 1rem;
+    margin-bottom: 16px;
+    line-height: 1.6;
+}
+
+.card-footer {
+    text-align: right;
+    color: var(--secondary-color);
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+}
+
+input[type="text"], select, button {
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+}
+
+button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: bold;
+    margin-top: 16px;
+}
+
+
+</style>
