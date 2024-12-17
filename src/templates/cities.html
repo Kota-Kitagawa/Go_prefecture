@@ -10,7 +10,7 @@
         <div class="card">
             <div class="card-header">都道府県別の市区町村リスト</div>
             <div class="card-content">
-                <form action="/citiesresult" method="POST">
+                <form action="/citiesresult" method="GET">
                     <select name="prefecture" id="prefecture-select">
                         {{ range .Prefectures }}
                         <option value="{{.}}">{{.}}</option>
