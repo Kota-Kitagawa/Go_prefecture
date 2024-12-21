@@ -34,7 +34,7 @@
 </body>
 </html>
 <style>
-    :root {
+:root {
     --primary-color: #283593; 
     --secondary-color: #4CAF50; 
     --background-gradient: linear-gradient(to right, #e3f2fd, #bbdefb);
@@ -99,11 +99,24 @@ body {
     letter-spacing: 0.5px;
 }
 
+/* Modified form styles */
 form {
     display: flex;
     flex-direction: column;
     gap: 12px;
     width: 100%;
+}
+
+.address-inputs {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 8px;
+    align-items: center;
+}
+
+label {
+    white-space: nowrap;
+    padding-right: 10px;
 }
 
 input[type="text"], select, button {
@@ -121,13 +134,11 @@ button {
     transition: background-color 0.3s;
 }
 
-
 a {
     color: var(--primary-color);
     text-decoration: none;
     font-weight: bold;
     margin-top: 16px;
 }
-
 
 </style>

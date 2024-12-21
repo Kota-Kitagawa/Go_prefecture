@@ -23,10 +23,10 @@ func fetchPostal(postalcode, Prefecture, City, Normalizedfield9 string) (string,
     return postalcode, nil
 }
 
-func PostSearchHTMLHandler(c *gin.Context) {
-    Prefecture := c.PostForm("prefecture")
-    City := c.PostForm("city")
-    Detail := c.PostForm("detail")
+func PostSearchHandler(c *gin.Context) {
+    Prefecture := c.Query("prefecture")
+    City := c.Query("city")
+    Detail := c.Query("detail")
     log.Printf("Received address: %s-%s-%s", Prefecture, City, Detail)
     if Prefecture == "" || City == "" || Detail == "" {
         c.String(http.StatusBadRequest, "Address not specified")
@@ -43,25 +43,20 @@ func PostSearchHTMLHandler(c *gin.Context) {
         c.String(http.StatusInternalServerError, "Failed to fetch address")
         return
     }
-    c.HTML(http.StatusOK, "postresult.html", gin.H{
-        "PostCode": postalcode,
-    })
-}
-
-func PostSearchJSONHandler(c *gin.Context) {
-    prefecture := c.PostForm("prefecture")
-    log.Printf("Received prefecture: %s", prefecture)
-
-    cities, err := fetchCities(prefecture)
-    if err != nil {
-        log.Printf("Failed to fetch cities: %v", err)
-        c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch cities"})
-        return
+    responseFormat := c.Query("format")
+    if responseFormat == "json" {
+        c.JSON(http.StatusOK, gin.H{
+            "PostalCode": postalcode,
+        })
+    } else {
+        c.HTML(http.StatusOK, "postresult.html", gin.H{
+            "PostalCode": postalcode,
+        })
     }
-    c.JSON(http.StatusOK, gin.H{
-        "cities": cities,
-    })
+    
 }
+
+
 func PostalHandler(c *gin.Context) {
 	c.HTML(200, "postcode.html", nil)
 }
