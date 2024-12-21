@@ -10,13 +10,19 @@
         <div class="card">
             <div class="card-header">住所から郵便番号検索</div>
             <div class="card-content">
-                <form action="/postresult" method="POST">
-                    <label for="prefecture">都道府県</label>
-                    <input type="text" id="prefecture" name="prefecture" placeholder="例: 〇〇県">
-                    <label for="city">市区町村</label>
-                    <input type="text" id="city" name="city" placeholder="例: 〇〇市">
-                    <label for="address">詳細住所</label>
-                    <input type="text" id="address" name="address" placeholder="例: 〇〇町〇〇ビル">
+                <form action="/postresult" method="GET">
+                    <div class="address-inputs">
+                        <label for="prefecture">都道府県</label>
+                        <input type="text" id="prefecture" name="prefecture" placeholder="例: 〇〇県">
+                        <label for="city">市区町村</label>
+                        <input type="text" id="city" name="city" placeholder="例: 〇〇市">
+                        <label for="address">詳細住所</label>
+                        <input type="text" id="detail" name="detail" placeholder="例: 〇〇町〇〇ビル">
+                    </div>
+                    <select name="format">
+                        <option value="html">HTML</option>
+                        <option value="json">JSON</option>
+                    </select>
                     <button type="submit">検索</button>
                 </form>
             </div>
