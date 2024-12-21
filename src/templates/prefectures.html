@@ -10,7 +10,7 @@
         <h1>都道府県一覧</h1>
         <div class="card">
             <div class="card-content">
-                <ul>
+                <ul id="prefecture-list">
                     {{ range .Prefectures }}
                     <li>
                         <p>{{.}}</p>
@@ -19,10 +19,22 @@
                 </ul>
             </div>
             <div class="card-footer">
+                <button id="toggle-json">JSONに切り替え</button>
                 <a href="/">ホームに戻る</a>
             </div>
         </div>
     </div>
+    <script>
+        document.getElementById('toggle-json').addEventListener('click', function() {
+            fetch('/api/prefectures')
+                .then(response => response.json())
+                .then(data => {
+                    const list = document.getElementById('prefecture-list');
+                    list.innerHTML = '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+                })
+                .catch(error => console.error('Error fetching JSON:', error));
+        });
+    </script>
 </body>
 </html>
 <style>
