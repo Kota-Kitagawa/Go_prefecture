@@ -49,3 +49,15 @@ func PrefectureJSONHandler(c *gin.Context) {
         "Prefectures": prefectures,
     })
 }
+
+func PrefListHTMLHandler(c *gin.Context) {
+    prefectures, err := fetchPrefecture()
+    if err != nil {
+        log.Printf("Failed to fetch prefectures: %v", err)
+        c.String(http.StatusInternalServerError, "Failed to fetch prefectures")
+        return
+    }
+    c.HTML(http.StatusOK, "cities.html", gin.H{
+        "Prefectures": prefectures,
+    })
+}
