@@ -16,7 +16,12 @@
             {{ end }}
         </ul>
     </div>
+    <div>
+        {{ if gt .Page 1 }}
+        <a href="/citiesresult?prefecture={{.Prefecture}}&page={{sub .Page 1}}">前のページ</a>
+        {{ end }}
+        <a href="/citiesresult?prefecture={{.Prefecture}}&page={{add .Page 1}}">次のページ</a>
+    </div>
     <a href="/">ホームに戻る</a>
 </body>
 </html>
-
