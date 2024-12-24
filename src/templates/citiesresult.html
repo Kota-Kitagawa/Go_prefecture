@@ -6,22 +6,138 @@
     <title>都道府県別の市区町村の検索結果</title>
 </head>
 <body>
-    <h1>都道府県別の市区町村検索結果</h1>
-    <div>
-        <ul>
-            {{ range .Cities }}
-            <li>
-                <p>{{.}}</p>
-            </li>
-            {{ end }}
-        </ul>
+    <div class="container">
+        <h1>都道府県別の市区町村検索結果</h1>
+        <div class="card">
+            <div class="card-content">
+                <ul>
+                    {{ range .Cities }}
+                    <li>
+                        <p>{{.}}</p>
+                    </li>
+                    {{ end }}
+                </ul>
+            </div>
+            <div class="card-footer pagination">
+                {{ if gt .Page 1 }}
+                <a href="/citiesresult?prefecture={{.Prefecture}}&page={{sub .Page 1}}">前のページ</a>
+                {{ end }}
+                <a href="/citiesresult?prefecture={{.Prefecture}}&page={{add .Page 1}}">次のページ</a>
+            </div>
+            <div class="card-footer">
+                <a href="/">ホームに戻る</a>
+            </div>
+        </div>
     </div>
-    <div>
-        {{ if gt .Page 1 }}
-        <a href="/citiesresult?prefecture={{.Prefecture}}&page={{sub .Page 1}}">前のページ</a>
-        {{ end }}
-        <a href="/citiesresult?prefecture={{.Prefecture}}&page={{add .Page 1}}">次のページ</a>
-    </div>
-    <a href="/">ホームに戻る</a>
 </body>
 </html>
+<style>
+    :root {
+        --primary-color: #283593; 
+        --secondary-color: #4CAF50; 
+        --background-gradient: linear-gradient(to right, #e3f2fd, #bbdefb);
+        --card-bg-color: white;
+        --card-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+    }
+
+    body {
+        font-family: 'Noto Sans JP', sans-serif;
+        background: var(--background-gradient);
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+    }
+
+    h1 {
+        color: var(--primary-color);
+        font-size: 2rem;
+        margin-bottom: 24px;
+    }
+
+    .container {
+        max-width: 600px;
+        width: 100%;
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 24px;
+    }
+
+    .card {
+        background: var(--card-bg-color);
+        border-radius: 16px;
+        padding: 20px;
+        box-shadow: var(--card-shadow);
+        transition: transform 0.3s, box-shadow 0.3s;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        text-align: left;
+        width: 100%;
+    }
+
+    .card-header {
+        font-size: 1.6rem;
+        font-weight: bold;
+        color: var(--primary-color);
+        margin-bottom: 12px;
+    }
+
+    .card-content {
+        color: #666;
+        font-size: 1rem;
+        margin-bottom: 16px;
+        line-height: 1.6;
+    }
+
+    .card-footer {
+        text-align: right;
+        color: var(--secondary-color);
+        font-weight: bold;
+        text-transform: uppercase;
+        font-size: 0.9rem;
+        letter-spacing: 0.5px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    li {
+        background: var(--card-bg-color);
+        border-radius: 8px;
+        padding: 10px;
+        margin-bottom: 8px;
+        box-shadow: var(--card-shadow);
+    }
+
+    a {
+        color: var(--primary-color);
+        text-decoration: none;
+        font-weight: bold;
+        margin-top: 16px;
+    }
+
+    .pagination {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .pagination a {
+        padding: 10px;
+        border-radius: 8px;
+        background-color: var(--primary-color);
+        color: white;
+        text-decoration: none;
+        transition: background-color 0.3s;
+    }
+</style>
