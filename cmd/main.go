@@ -5,12 +5,17 @@ import (
     "Go_prefecture/handlers"
     "github.com/gin-gonic/gin"
     "fmt"
+    "html/template"
 )
 
 func main() {
 
     router := gin.Default()
-    router.LoadHTMLGlob("../templates/*")
+    router.SetFuncMap(template.FuncMap{
+        "add": func(a, b int) int { return a + b },
+        "sub": func(a, b int) int { return a - b },
+    })
+    router.LoadHTMLGlob("../src/templates/*")
     db, err := database.InitDB("../new.db")
     if err != nil {
         panic(err)
@@ -66,12 +71,13 @@ func main() {
     rows.Close()
 
     router.GET("/", handlers.HomeHandler)
-    router.GET("/prefectures", handlers.PrefectureHTMLHandler)    //都道府県リスト
-    router.GET("/cities", handlers.PretoCityHTMLHandler)   //市区町村検索ページ
-    router.POST("/citiesresult", handlers.CitiesHTMLHandler)        //市区町村検索結果のページ
+    router.GET("/prefectures", handlers.PretoCityHTMLHandler) //都道府県リストページ
+    router.GET("/api/prefectures", handlers.PretoCityJSONHandler)
+    router.GET("/cities", handlers.PrefListHTMLHandler)   //市区町村検索ページ
+    router.GET("/citiesresult", handlers.CitiesHTMLHandler)        //市区町村検索結果のページ
     router.GET("/postcode", handlers.PostalHandler)           //郵便番号の検索ページ
-    router.POST("/addressresult", handlers.AddressHTMLHandler)    //郵便番号から住所の結果を表示するページ
+    router.GET("/addressresult", handlers.AddressHandler)    //郵便番号から住所の結果を表示するページ
     router.GET("/postsearch", handlers.AddressSearchHandler)  //住所から郵便番号を検索するページ
-    router.POST("/postresult",handlers.PostSearchHTMLHandler)     //郵便番号結果を表示するページ
+    router.GET("/postresult",handlers.PostSearchHandler)     //郵便番号結果を表示するページ
     router.Run(":8080")
 }

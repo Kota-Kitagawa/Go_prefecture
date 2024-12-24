@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>住所検索結果</title>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="card-header">住所検索結果</div>
+            <div class="card-content">
+                <p>都道府県: {{.Field7}}</p>
+                <p>市区町村: {{.Field8}}</p>
+                <p>番地: {{.Field9}}</p>
+                <p>住所：{{.FullAddress}}</p>
+            </div>
+            <div class="card-footer">
+                <a href="/">ホームに戻る</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<style>
+    :root {
+    --primary-color: #283593; 
+    --secondary-color: #4CAF50;
+    --background-gradient: linear-gradient(to right, #e3f2fd, #bbdefb);
+    --card-bg-color: white;
+    --card-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+}
+
+body {
+    font-family: 'Noto Sans JP', sans-serif;
+    background: var(--background-gradient);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 1200px;
+    width: 100%;
+    padding: 16px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+    gap: 24px;
+}
+
+.card {
+    background: var(--card-bg-color);
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: var(--card-shadow);
+    transition: transform 0.3s, box-shadow 0.3s;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    cursor: pointer;
+    text-align: left;
+}
+
+.card-header {
+    font-size: 1.6rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-bottom: 12px;
+}
+
+.card-content {
+    color: #666;
+    font-size: 1rem;
+    margin-bottom: 16px;
+    line-height: 1.6;
+}
+
+.card-footer {
+    text-align: right;
+    color: var(--secondary-color);
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+}
+
+@media (max-width: 768px) {
+    .container {
+        grid-template-columns: 1fr;
+    }
+
+    .card {
+        padding: 16px;
+    }
+}
+</style>
