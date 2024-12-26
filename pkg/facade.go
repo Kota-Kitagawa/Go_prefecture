@@ -19,7 +19,6 @@ func FetchAddress(postalCode string) (string, string, string, string, error) {
     if err != nil {
         return "", "", "", "", err
     }
-
     return field7, field8, field9, fullAddress, nil
 }
 
@@ -62,4 +61,22 @@ func FetchPostal(postalcode, Prefecture, City, Normalizedfield9 string) (string,
         }
     }
     return postalcode, nil
+}
+
+func FetchPrefecture() ([]string, error) {
+    query := `SELECT DISTINCT field7 FROM addresses`
+    rows, err := database.DB.Query(query)
+    if err != nil {
+        return nil, err
+    }
+    defer rows.Close()
+    var prefectures []string
+    for rows.Next() {
+        var prefecture string
+        if err := rows.Scan(&prefecture); err != nil {
+            return nil, err
+        }
+        prefectures = append(prefectures, prefecture)
+    }
+    return prefectures, nil
 }
