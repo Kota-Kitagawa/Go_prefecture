@@ -2,7 +2,7 @@ package handlers
 
 import (
 	"github.com/gin-gonic/gin"
-	"Go_prefecture/pkg"
+	"Go_prefecture/internal/pkg"
 )
 
 func HomeHandler(c *gin.Context) {

@@ -5,7 +5,7 @@ import (
     "net/http"
     "strconv"
     "github.com/gin-gonic/gin"
-    "Go_prefecture/pkg"
+    "Go_prefecture/internal/pkg"
 )
 
 func CitiesHandler(c *gin.Context) {
