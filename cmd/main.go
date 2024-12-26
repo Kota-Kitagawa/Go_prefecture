@@ -70,8 +70,7 @@ func main() {
     rows.Close()
 
     router.GET("/", handlers.HomeHandler)
-    router.GET("/prefectures", handlers.PretoCityHTMLHandler) //都道府県リストページ
-    router.GET("/api/prefectures", handlers.PretoCityJSONHandler)
+    router.GET("/prefectures", handlers.PretoCityHandler) //都道府県リストページ
     router.GET("/cities", handlers.PrefListHTMLHandler)   //市区町村検索ページ
     router.GET("/citiesresult", handlers.CitiesHandler)        //市区町村検索結果のページ
     router.GET("/postcode", handlers.PostalHandler)           //郵便番号の検索ページ
