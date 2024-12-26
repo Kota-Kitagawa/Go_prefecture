@@ -6,49 +6,63 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"sync"
 	"golang.org/x/text/encoding/japanese"
 	"golang.org/x/text/transform"
 	_ "github.com/mattn/go-sqlite3"
 )
 
-var DB *sql.DB
+var(
+	DB *sql.DB
+	once sync.Once
+)
+
 
 func InitDB(filepath string) (*sql.DB, error) {
-	var err error
-	DB, err = sql.Open("sqlite3", filepath)
-	if err != nil {
-		return nil, err
-	}
-	if DB == nil {
-		return nil, errors.New("db is nil")
-	}
+	var Initerr error
+	once.Do(func() {
+		var err error
+		DB, err = sql.Open("sqlite3", filepath)
+		if err != nil {
+			Initerr=err
+			return 
+		}
+		if DB == nil {
+			Initerr = errors.New("db is nil")
+			return
+		}
 
-	// Set PRAGMA encoding to UTF-8
-	_, err = DB.Exec(`PRAGMA encoding = "UTF-8";`)
-	if err != nil {
-		return nil, err
-	}
+		_, err = DB.Exec(`PRAGMA encoding = "UTF-8";`)
+		if err != nil {
+			Initerr = err
+			return
+		}
 
-	_, err = DB.Exec(`CREATE TABLE IF NOT EXISTS addresses (
-		id INTEGER PRIMARY KEY AUTOINCREMENT,
-		field1 INTEGER,
-		field2 INTEGER,
-		field3 INTEGER,
-		field4 TEXT,
-		field5 TEXT,
-		field6 TEXT,
-		field7 TEXT,
-		field8 TEXT,
-		field9 TEXT,
-		field10 INTEGER,
-		field11 INTEGER,
-		field12 INTEGER,
-		field13 INTEGER,
-		field14 INTEGER,
-		field15 INTEGER
-	)`)
-	if err != nil && err.Error() != "table addresses already exists" {
-		return nil, err
+		_, err = DB.Exec(`CREATE TABLE IF NOT EXISTS addresses (
+			id INTEGER PRIMARY KEY AUTOINCREMENT,
+			field1 INTEGER,
+			field2 INTEGER,
+			field3 INTEGER,
+			field4 TEXT,
+			field5 TEXT,
+			field6 TEXT,
+			field7 TEXT,
+			field8 TEXT,
+			field9 TEXT,
+			field10 INTEGER,
+			field11 INTEGER,
+			field12 INTEGER,
+			field13 INTEGER,
+			field14 INTEGER,
+			field15 INTEGER
+		)`)
+		if err != nil && err.Error() != "table addresses already exists" {
+			Initerr = err
+			return
+		}
+	})
+	if Initerr != nil {
+		return nil, Initerr
 	}
 	return DB, nil
 }
@@ -143,16 +157,4 @@ func ImportCSV(filepath string) error {
 		}
 	}
 	return tx.Commit()
-}
-func main() {
-    db, err := InitDB("new.db")
-    if err != nil {
-        panic(err)
-    }
-    defer db.Close()
-	
-    if err := NormalizeTable(); err != nil {
-        panic(err)
-    }
-    fmt.Println("Table created and normalized successfully")
 }

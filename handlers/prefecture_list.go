@@ -3,21 +3,20 @@ package handlers
 import (
     "log"
     "net/http"
-    "Go_prefecture/internal/pkg"
     "github.com/gin-gonic/gin"
+    "Go_prefecture/internal/pkg"
 )
 
-func PretoCityHandler(c *gin.Context) {
-    prefectures, err := pkg.FetchPretoCity()
+func PrefListHTMLHandler(c *gin.Context) {
+    prefectures, err := pkg.FetchPrefecture()
     if err != nil {
         log.Printf("Failed to fetch prefectures: %v", err)
         c.String(http.StatusInternalServerError, "Failed to fetch prefectures")
         return
     }
-    responseFormat := c.DefaultQuery("format","html")
-    res :=pkg.GetResponse(responseFormat,"prefectures.html")
+	responseFormat := "html"
+    res :=pkg.GetResponse(responseFormat,"cities.html")
     res.Respond(c,gin.H{
         "Prefectures": prefectures,
     })
 }
-

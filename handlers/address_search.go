@@ -5,8 +5,8 @@ import (
 	"Go_prefecture/internal/pkg"
 )
 
-func HomeHandler(c *gin.Context) {
+func AddressSearchHandler(c *gin.Context) {
 	responseFormat := "html"
-	res := pkg.GetResponse(responseFormat,"index.html")
+	res := pkg.GetResponse(responseFormat,"postsearch.html")
 	res.Respond(c,gin.H{})
 }
