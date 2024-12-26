@@ -48,3 +48,18 @@ func FetchCities(prefecture string, limit, offset int) ([]string, error) {
     }
     return cities, err
 }
+
+func FetchPostal(postalcode, Prefecture, City, Normalizedfield9 string) (string, error) {
+    query := `SELECT field3 FROM normalized_utf_ken_all WHERE field7 = ? AND field8 = ? AND Normalizedfield9 LIKE ?`
+    rows, err := database.DB.Query(query, Prefecture, City, Normalizedfield9)
+    if err != nil {
+        return "", err
+    }
+    defer rows.Close()
+    for rows.Next() {
+        if err := rows.Scan(&postalcode); err != nil {
+            return "", err
+        }
+    }
+    return postalcode, nil
+}
