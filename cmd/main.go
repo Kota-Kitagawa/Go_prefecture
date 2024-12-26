@@ -9,7 +9,6 @@ import (
 )
 
 func main() {
-
     router := gin.Default()
     router.SetFuncMap(template.FuncMap{
         "add": func(a, b int) int { return a + b },
