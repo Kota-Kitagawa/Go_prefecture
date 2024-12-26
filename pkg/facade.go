@@ -80,3 +80,21 @@ func FetchPrefecture() ([]string, error) {
     }
     return prefectures, nil
 }
+
+func FetchPretoCity()([]string,error){
+    query := `SELECT DISTINCT field7 FROM addresses`
+    rows, err := database.DB.Query(query)
+    if err != nil {
+        return nil, err
+    }
+    defer rows.Close()
+    var prefectures []string
+    for rows.Next() {
+        var prefecture string
+        if err := rows.Scan(&prefecture); err != nil {
+            return nil, err
+        }
+        prefectures = append(prefectures, prefecture)
+    }
+    return prefectures, nil
+}
