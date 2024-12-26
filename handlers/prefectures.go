@@ -4,7 +4,7 @@ import (
     "log"
     "net/http"
     "github.com/gin-gonic/gin"
-    "Go_prefecture/pkg/database"
+    "Go_prefecture/internal/database"
 )
 
 func fetchPrefecture() ([]string, error) {

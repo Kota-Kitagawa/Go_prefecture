@@ -5,7 +5,7 @@ import (
     "net/http"
     "strconv"
     "github.com/gin-gonic/gin"
-    "Go_prefecture/pkg/database"
+    "Go_prefecture/internal/database"
 )
 
 func fetchCities(prefecture string, limit, offset int) ([]string, error) {

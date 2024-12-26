@@ -1,7 +1,7 @@
 package main
 
 import (
-    "Go_prefecture/pkg/database"
+    "Go_prefecture/internal/database"
     "Go_prefecture/handlers"
     "github.com/gin-gonic/gin"
     "fmt"
