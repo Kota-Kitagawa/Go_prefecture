@@ -25,7 +25,7 @@ func main() {
     fmt.Println("First table created successfully")
 
     // CSVデータをaddressesテーブルにインポート
-    err = database.ImportCSV("../Data/utf_ken_all.csv") 
+    err = database.ImportCSV("Data/utf_ken_all.csv") 
     if err != nil {
         fmt.Printf("Error importing CSV: %v\n", err)
         return
