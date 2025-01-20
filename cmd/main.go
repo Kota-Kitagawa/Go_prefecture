@@ -16,7 +16,7 @@ func main() {
         "add": func(a, b int) int { return a + b },
         "sub": func(a, b int) int { return a - b },
     })
-    router.LoadHTMLGlob("../src/templates/*")
+    router.LoadHTMLGlob("src/templates/*")
     db, err := database.InitDB(database_url)
     if err != nil {
         panic(err)
