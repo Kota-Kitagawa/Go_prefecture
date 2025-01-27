@@ -16,7 +16,7 @@ func main() {
         "add": func(a, b int) int { return a + b },
         "sub": func(a, b int) int { return a - b },
     })
-    router.LoadHTMLGlob("src/templates/*")
+    router.LoadHTMLGlob("../src/templates/*")
     db, err := database.InitDB(database_url)
     if err != nil {
         panic(err)
@@ -25,7 +25,7 @@ func main() {
     fmt.Println("First table created successfully")
 
     // CSVデータをaddressesテーブルにインポート
-    err = database.ImportCSV("Data/utf_ken_all.csv") 
+    err = database.ImportCSV("../Data/utf_ken_all.csv") 
     if err != nil {
         fmt.Printf("Error importing CSV: %v\n", err)
         return
@@ -75,7 +75,7 @@ func main() {
     router.GET("/cities", handlers.PrefListHTMLHandler)   //市区町村検索ページ
     router.GET("/citiesresult", handlers.CitiesHandler)        //市区町村検索結果のページ
     router.GET("/postcode", handlers.PostalHandler)           //郵便番号の検索ページ
-    router.GET("/addressresult", handlers.AddressHandler)    //郵便番号から住所の結果を表示するページ
+    router.GET("/addressresult/:postalcode1/:postalcode2", handlers.AddressHandler)    //郵便番号から住所の結果を表示するページ
     router.GET("/postsearch", handlers.AddressSearchHandler)  //住所から郵便番号を検索するページ
     router.GET("/postresult",handlers.PostSearchHandler)     //郵便番号結果を表示するページ
     router.Run(":8080")

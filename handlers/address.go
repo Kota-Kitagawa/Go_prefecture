@@ -8,7 +8,9 @@ import (
 
 
 func AddressHandler(c *gin.Context) {
-    postalCode := c.Query("postalcode1") + c.Query("postalcode2")
+    postalCode1 := c.Param("postalcode1")
+    postalCode2 := c.Param("postalcode2")
+    postalCode := postalCode1 + postalCode2
     field7, field8, field9, fullAddress, err := pkg.FetchAddress(postalCode)
     if err != nil {
         c.String(http.StatusInternalServerError, "Error fetching address")
