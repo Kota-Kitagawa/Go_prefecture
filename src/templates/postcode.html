@@ -4,17 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>郵便番号から住所検索</title>
+    <script>
+        function updateUrl(event) {
+            var postalcode1 = document.getElementById("postalcode1").value;
+            var postalcode2 = document.getElementById("postalcode2").value;
+            var format = document.querySelector("select[name='format']").value;
+            var actionUrl = `/addressresult/${postalcode1}/${postalcode2}?format=${format}`;
+            document.getElementById("addressForm").action = actionUrl;
+            event.preventDefault();
+            document.getElementById("addressForm").submit();
+        }
+    </script>
 </head>
 <body>
     <div class="container">
         <div class="card">
             <div class="card-header">郵便番号から住所検索</div>
             <div class="card-content">
-                <form action="/addressresult" method="GET">
+                <form id="addressForm" method="GET" onsubmit="updateUrl(event)">
                     <div class="postalcode-inputs">
-                        <input type="text" id="postalcode1" name="postalcode1" placeholder="123">
+                        <input type="text" id="postalcode1"  placeholder="123">
                         ー
-                        <input type="text" id="postalcode2" name="postalcode2" placeholder="4567">
+                        <input type="text" id="postalcode2"  placeholder="4567">
                     </div>
                     <select name="format">
                         <option value="html">HTML</option>
