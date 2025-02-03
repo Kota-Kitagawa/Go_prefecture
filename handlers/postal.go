@@ -7,6 +7,6 @@ import (
 
 func PostalHandler(c *gin.Context) {
 	responseFormat := "html"
-	res := pkg.GetResponse(responseFormat,"postcode.html")
+	res := pkg.GetResponse(responseFormat,"postcodeSearch.html")
 	res.Respond(c,gin.H{})
 }
