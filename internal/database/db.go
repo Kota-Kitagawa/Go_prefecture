@@ -7,8 +7,6 @@ import (
 	"fmt"
 	"os"
 	"sync"
-	"golang.org/x/text/encoding/japanese"
-	"golang.org/x/text/transform"
 	_ "github.com/mattn/go-sqlite3"
 )
 
@@ -126,7 +124,7 @@ func ImportCSV(filepath string) error {
 	defer file.Close()
 
 	// Shift_JISエンコーディングのCSVファイルをUTF-8として読み込む
-	reader := csv.NewReader(transform.NewReader(file, japanese.ShiftJIS.NewDecoder()))
+	reader := csv.NewReader(file)
 	records, err := reader.ReadAll()
 	if err != nil {
 		return err
