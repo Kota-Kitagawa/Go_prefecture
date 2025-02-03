@@ -9,7 +9,7 @@ import (
 )
 
 func CitiesHandler(c *gin.Context) {
-    prefecture := c.Query("prefecture")
+    prefecture := c.Param("prefecture")
     pageStr := c.Query("page")
     page, err := strconv.Atoi(pageStr)
     if err != nil || page < 1 {
