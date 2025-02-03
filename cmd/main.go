@@ -73,9 +73,9 @@ func main() {
     router.GET("/", handlers.HomeHandler)
     router.GET("/prefectures", handlers.PretoCityHandler) //都道府県リストページ
     router.GET("/cities", handlers.PrefListHTMLHandler)   //市区町村検索ページ
-    router.GET("/citiesresult", handlers.CitiesHandler)        //市区町村検索結果のページ
-    router.GET("/postcode", handlers.PostalHandler)           //郵便番号の検索ページ
-    router.GET("/addressresult/:postalcode1/:postalcode2", handlers.AddressHandler)    //郵便番号から住所の結果を表示するページ
+    router.GET("/citiesresult/:prefecture", handlers.CitiesHandler)        //市区町村検索結果のページ
+    router.GET("/postcodeSearch", handlers.PostalHandler)           //郵便番号の検索ページ
+    router.GET("/postCode/:postalCode", handlers.AddressHandler)    //郵便番号から住所の結果を表示するページ
     router.GET("/postsearch", handlers.AddressSearchHandler)  //住所から郵便番号を検索するページ
     router.GET("/postresult",handlers.PostSearchHandler)     //郵便番号結果を表示するページ
     router.Run(":8080")

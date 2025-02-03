@@ -20,9 +20,9 @@
             </div>
             <div class="card-footer pagination">
                 {{ if gt .Page 1 }}
-                <a href="/citiesresult?prefecture={{.Prefecture}}&page={{sub .Page 1}}">前のページ</a>
+                <a href="/citiesresult/{{.Prefecture}}?page={{sub .Page 1}}">前のページ</a>
                 {{ end }}
-                <a href="/citiesresult?prefecture={{.Prefecture}}&page={{add .Page 1}}">次のページ</a>
+                <a href="/citiesresult/{{.Prefecture}}?page={{add .Page 1}}">次のページ</a>
             </div>
             <div class="card-footer">
                 <a href="/">ホームに戻る</a>
