@@ -1,38 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>郵便番号から住所検索</title>
-    <script>
-        function updateUrl(event) {
-            var postalcode1 = document.getElementById("postalcode1").value;
-            var postalcode2 = document.getElementById("postalcode2").value;
-            var format = document.querySelector("select[name='format']").value;
-            var actionUrl = `/addressresult/${postalcode1}/${postalcode2}?format=${format}`;
-            document.getElementById("addressForm").action = actionUrl;
-            event.preventDefault();
-            document.getElementById("addressForm").submit();
-        }
-    </script>
+    <title>住所検索結果</title>
 </head>
 <body>
     <div class="container">
         <div class="card">
-            <div class="card-header">郵便番号から住所検索</div>
+            <div class="card-header">住所検索結果</div>
             <div class="card-content">
-                <form id="addressForm" method="GET" onsubmit="updateUrl(event)">
-                    <div class="postalcode-inputs">
-                        <input type="text" id="postalcode1"  placeholder="123">
-                        ー
-                        <input type="text" id="postalcode2"  placeholder="4567">
-                    </div>
-                    <select name="format">
-                        <option value="html">HTML</option>
-                        <option value="json">JSON</option>
-                    </select>
-                    <button type="submit">検索</button>
-                </form>
+                <p>都道府県: {{.Field7}}</p>
+                <p>市区町村: {{.Field8}}</p>
+                <p>番地: {{.Field9}}</p>
+                <p>住所：{{.FullAddress}}</p>
             </div>
             <div class="card-footer">
                 <a href="/">ホームに戻る</a>
@@ -44,7 +25,7 @@
 <style>
     :root {
     --primary-color: #283593; 
-    --secondary-color: #4CAF50; 
+    --secondary-color: #4CAF50;
     --background-gradient: linear-gradient(to right, #e3f2fd, #bbdefb);
     --card-bg-color: white;
     --card-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
@@ -62,12 +43,11 @@ body {
 }
 
 .container {
-    max-width: 600px;
+    max-width: 1200px;
     width: 100%;
     padding: 16px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
     gap: 24px;
 }
 
@@ -80,10 +60,9 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    cursor: pointer;
     text-align: left;
-    width: 100%;
 }
-
 
 .card-header {
     font-size: 1.6rem;
@@ -108,40 +87,13 @@ body {
     letter-spacing: 0.5px;
 }
 
-form {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    width: 100%;
+@media (max-width: 768px) {
+    .container {
+        grid-template-columns: 1fr;
+    }
+
+    .card {
+        padding: 16px;
+    }
 }
-
-.postalcode-inputs {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-input[type="text"], select, button {
-    padding: 10px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    font-size: 1rem;
-}
-
-button {
-    background-color: var(--primary-color);
-    color: white;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-
-a {
-    color: var(--primary-color);
-    text-decoration: none;
-    font-weight: bold;
-    margin-top: 16px;
-}
-
 </style>
