@@ -25,7 +25,7 @@ func CitiesHandler(c *gin.Context) {
         return
     }
     responseFormat := c.Query("format")
-    res := pkg.GetResponse(responseFormat,"citiesresult.html")
+    res := pkg.GetResponse(responseFormat,"cities.html")
     res.Respond(c,gin.H{
         "Cities": cities,
         "Page":   page,
