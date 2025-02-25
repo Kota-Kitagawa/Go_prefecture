@@ -15,7 +15,7 @@ func PrefListHTMLHandler(c *gin.Context) {
         return
     }
 	responseFormat := "html"
-    res :=pkg.GetResponse(responseFormat,"cities.html")
+    res :=pkg.GetResponse(responseFormat,"citiesSearch.html")
     res.Respond(c,gin.H{
         "Prefectures": prefectures,
     })
