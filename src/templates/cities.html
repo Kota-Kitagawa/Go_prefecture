@@ -3,35 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>都道府県別の市区町村リスト</title>
+    <title>都道府県別の市区町村の検索結果</title>
 </head>
-<script>
-    function updateUrl(event) {
-        var prefecture = document.getElementById("prefecture-select").value;
-        var format = document.querySelector("select[name='format']").value;
-        var actionUrl = `/citiesresult/${encodeURIComponent(prefecture)}?format=${encodeURIComponent(format)}`;
-        document.getElementById("addressForm").action = actionUrl;
-        event.preventDefault();
-        document.getElementById("addressForm").submit();
-    }
-</script>
 <body>
     <div class="container">
+        <h1>都道府県別の市区町村検索結果</h1>
         <div class="card">
-            <div class="card-header">都道府県別の市区町村リスト</div>
             <div class="card-content">
-                <form id="addressForm"  method="GET" onsubmit="updateUrl(event)">
-                    <select id="prefecture-select">
-                        {{ range .Prefectures }}
-                        <option value="{{.}}">{{.}}</option>
-                        {{ end }}
-                    </select>
-                    <select name="format">
-                        <option value="html">HTML</option>
-                        <option value="json">JSON</option>
-                    </select>
-                    <button type="submit">検索</button>
-                </form>
+                <ul>
+                    {{ range .Cities }}
+                    <li>
+                        <p>{{.}}</p>
+                    </li>
+                    {{ end }}
+                </ul>
+            </div>
+            <div class="card-footer pagination">
+                {{ if gt .Page 1 }}
+                <a href="/cities/{{.Prefecture}}?page={{sub .Page 1}}">前のページ</a>
+                {{ end }}
+                <a href="/cities/{{.Prefecture}}?page={{add .Page 1}}">次のページ</a>
             </div>
             <div class="card-footer">
                 <a href="/">ホームに戻る</a>
@@ -55,9 +46,16 @@
         margin: 0;
         padding: 0;
         display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
         min-height: 100vh;
+    }
+
+    h1 {
+        color: var(--primary-color);
+        font-size: 2rem;
+        margin-bottom: 24px;
     }
 
     .container {
@@ -104,45 +102,21 @@
         text-transform: uppercase;
         font-size: 0.9rem;
         letter-spacing: 0.5px;
-    }
-
-    form {
         display: flex;
-        flex-direction: column;
-        gap: 12px;
-        width: 100%;
+        justify-content: space-between;
     }
 
-    select {
-        width: 100%;
-        padding: 10px;
+    ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    li {
+        background: var(--card-bg-color);
         border-radius: 8px;
-        border: 1px solid #ccc;
-        font-size: 1rem;
-        background-color: white;
-        cursor: pointer;
-        appearance: auto;
-    }
-
-    select:focus {
-        outline: none;
-        border-color: var(--primary-color);
-        box-shadow: 0 0 0 2px rgba(40, 53, 147, 0.2);
-    }
-
-    button {
-        background-color: var(--primary-color);
-        color: white;
-        border: none;
-        cursor: pointer;
-        transition: background-color 0.3s;
         padding: 10px;
-        border-radius: 8px;
-        font-size: 1rem;
-    }
-
-    button:hover {
-        background-color: #1a237e;
+        margin-bottom: 8px;
+        box-shadow: var(--card-shadow);
     }
 
     a {
@@ -150,5 +124,20 @@
         text-decoration: none;
         font-weight: bold;
         margin-top: 16px;
+    }
+
+    .pagination {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .pagination a {
+        padding: 10px;
+        border-radius: 8px;
+        background-color: var(--primary-color);
+        color: white;
+        text-decoration: none;
+        transition: background-color 0.3s;
     }
 </style>
